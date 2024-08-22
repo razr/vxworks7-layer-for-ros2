@@ -1,0 +1,39 @@
+From 8791960628189a9c54120c7cc0a9b0a8f6219dcb Mon Sep 17 00:00:00 2001
+From: Andrei Kholodnyi <andrei.kholodnyi@windriver.com>
+Date: Wed, 21 Aug 2024 23:33:25 +0200
+Subject: [PATCH] add float
+
+---
+ localization/localization_util/src/covariance_ellipse.cpp | 2 +-
+ localization/localization_util/src/util_func.cpp          | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/localization/localization_util/src/covariance_ellipse.cpp b/localization/localization_util/src/covariance_ellipse.cpp
+index 885ce2dce..75f1f1761 100644
+--- a/localization/localization_util/src/covariance_ellipse.cpp
++++ b/localization/localization_util/src/covariance_ellipse.cpp
+@@ -80,7 +80,7 @@ visualization_msgs::msg::Marker create_ellipse_marker(
+   marker.scale.x = ellipse_long_radius * 2;
+   marker.scale.y = ellipse_short_radius * 2;
+   marker.scale.z = 0.01;
+-  marker.color.a = 0.1;
++  marker.color.a = 0.1f;
+   marker.color.r = 0.0;
+   marker.color.g = 0.0;
+   marker.color.b = 1.0;
+diff --git a/localization/localization_util/src/util_func.cpp b/localization/localization_util/src/util_func.cpp
+index 133442df6..2e2c75448 100644
+--- a/localization/localization_util/src/util_func.cpp
++++ b/localization/localization_util/src/util_func.cpp
+@@ -41,7 +41,7 @@ std_msgs::msg::ColorRGBA exchange_color_crc(double x)
+     color.g = static_cast<float>(-std::sin(x * 2.0 * M_PI));
+     color.r = 1.0;
+   }
+-  color.a = 0.999;
++  color.a = 0.999f;
+   return color;
+ }
+ 
+-- 
+2.34.1
+

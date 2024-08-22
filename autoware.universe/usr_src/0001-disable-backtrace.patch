@@ -1,0 +1,52 @@
+From 3a64a2014e5b7c8bbcd542896fa73b9b65738152 Mon Sep 17 00:00:00 2001
+From: Andrei Kholodnyi <andrei.kholodnyi@windriver.com>
+Date: Thu, 22 Aug 2024 13:09:26 +0200
+Subject: [PATCH] disable backtrace
+
+---
+ .../src/system/backtrace.cpp                        | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/common/autoware_universe_utils/src/system/backtrace.cpp b/common/autoware_universe_utils/src/system/backtrace.cpp
+index 7af91bdcc..d97c2513d 100644
+--- a/common/autoware_universe_utils/src/system/backtrace.cpp
++++ b/common/autoware_universe_utils/src/system/backtrace.cpp
+@@ -16,7 +16,9 @@
+ 
+ #include "rclcpp/rclcpp.hpp"
+ 
++#if !defined(__VXWORKS__)
+ #include <execinfo.h>
++#endif
+ 
+ #include <iostream>
+ #include <memory>
+@@ -29,15 +31,24 @@ namespace autoware::universe_utils
+ void print_backtrace()
+ {
+   constexpr size_t max_frames = 100;
++#if !defined(__VXWORKS__)
+   void * addrlist[max_frames + 1];
++#endif
+ 
++#if !defined(__VXWORKS__)
+   int addrlen = backtrace(addrlist, sizeof(addrlist) / sizeof(void *));
+-
++#else
++  int addrlen = 0;
++#endif
+   if (addrlen == 0) {
+     return;
+   }
+ 
++#if !defined(__VXWORKS__)
+   char ** symbol_list = backtrace_symbols(addrlist, addrlen);
++#else
++  char ** symbol_list = 0;
++#endif
+ 
+   std::stringstream ss;
+   ss << "\n   @   ********** back trace **********" << std::endl;
+-- 
+2.34.1
+
