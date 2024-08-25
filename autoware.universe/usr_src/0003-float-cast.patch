@@ -1,0 +1,54 @@
+From f63d5e65d3334fd53a459d83aef0a4481410b8ec Mon Sep 17 00:00:00 2001
+From: Andrei Kholodnyi <andrei.kholodnyi@windriver.com>
+Date: Sun, 25 Aug 2024 11:32:28 +0200
+Subject: [PATCH 3/4] float cast
+
+---
+ .../src/geometry/boost_polygon_utils.cpp                    | 6 +++---
+ common/autoware_universe_utils/src/geometry/geometry.cpp    | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/common/autoware_universe_utils/src/geometry/boost_polygon_utils.cpp b/common/autoware_universe_utils/src/geometry/boost_polygon_utils.cpp
+index da3da42cb..7ad17f1ff 100644
+--- a/common/autoware_universe_utils/src/geometry/boost_polygon_utils.cpp
++++ b/common/autoware_universe_utils/src/geometry/boost_polygon_utils.cpp
+@@ -72,7 +72,7 @@ namespace autoware::universe_utils
+ {
+ bool isClockwise(const Polygon2d & polygon)
+ {
+-  const int n = polygon.outer().size();
++  const auto n = polygon.outer().size();
+   const double x_offset = polygon.outer().at(0).x();
+   const double y_offset = polygon.outer().at(0).y();
+   double sum = 0.0;
+@@ -100,8 +100,8 @@ geometry_msgs::msg::Polygon rotatePolygon(
+   geometry_msgs::msg::Polygon rotated_polygon;
+   for (const auto & point : polygon.points) {
+     auto rotated_point = point;
+-    rotated_point.x = cos * point.x - sin * point.y;
+-    rotated_point.y = sin * point.x + cos * point.y;
++    rotated_point.x = static_cast<float>(cos * point.x - sin * point.y);
++    rotated_point.y = static_cast<float>(sin * point.x + cos * point.y);
+     rotated_polygon.points.push_back(rotated_point);
+   }
+   return rotated_polygon;
+diff --git a/common/autoware_universe_utils/src/geometry/geometry.cpp b/common/autoware_universe_utils/src/geometry/geometry.cpp
+index 59bf91397..b834a3eb5 100644
+--- a/common/autoware_universe_utils/src/geometry/geometry.cpp
++++ b/common/autoware_universe_utils/src/geometry/geometry.cpp
+@@ -212,9 +212,9 @@ geometry_msgs::msg::Point32 transformPoint(
+     geometry_msgs::build<geometry_msgs::msg::Point>().x(point32.x).y(point32.y).z(point32.z);
+   const auto transformed_point = autoware::universe_utils::transformPoint(point, pose);
+   return geometry_msgs::build<geometry_msgs::msg::Point32>()
+-    .x(transformed_point.x)
+-    .y(transformed_point.y)
+-    .z(transformed_point.z);
++    .x(static_cast<float>(transformed_point.x))
++    .y(static_cast<float>(transformed_point.y))
++    .z(static_cast<float>(transformed_point.z));
+ }
+ 
+ geometry_msgs::msg::Pose transformPose(
+-- 
+2.34.1
+

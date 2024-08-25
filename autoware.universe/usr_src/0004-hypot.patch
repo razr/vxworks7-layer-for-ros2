@@ -1,0 +1,33 @@
+From 5fe7fa9a98a5c696b349507653b8e6273db7eebf Mon Sep 17 00:00:00 2001
+From: Andrei Kholodnyi <andrei.kholodnyi@windriver.com>
+Date: Sun, 25 Aug 2024 11:32:55 +0200
+Subject: [PATCH 4/4] hypot
+
+---
+ .../include/autoware/universe_utils/geometry/geometry.hpp      | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/common/autoware_universe_utils/include/autoware/universe_utils/geometry/geometry.hpp b/common/autoware_universe_utils/include/autoware/universe_utils/geometry/geometry.hpp
+index 8796de72f..41f37c95a 100644
+--- a/common/autoware_universe_utils/include/autoware/universe_utils/geometry/geometry.hpp
++++ b/common/autoware_universe_utils/include/autoware/universe_utils/geometry/geometry.hpp
+@@ -24,6 +24,7 @@
+ #include <string>
+ #include <utility>
+ #include <vector>
++#include <cmath>
+ 
+ #define EIGEN_MPL2_ONLY
+ #include <Eigen/Core>
+@@ -561,7 +562,7 @@ inline geometry_msgs::msg::Twist createTwist(
+ 
+ inline double calcNorm(const geometry_msgs::msg::Vector3 & v)
+ {
+-  return std::hypot(v.x, v.y, v.z);
++  return std::hypot(std::hypot(v.x, v.y), v.z);
+ }
+ 
+ /**
+-- 
+2.34.1
+
