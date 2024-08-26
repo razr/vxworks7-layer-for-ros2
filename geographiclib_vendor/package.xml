@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<?xml-model
+  href="http://download.ros.org/schema/package_format2.xsd"
+  schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="2">
+  <name>geographiclib_vendor</name>
+  <version>0.10.0</version>
+  <description>CMake shim over the geographiclib library.</description>
+
+  <maintainer email="Andrei.Kholodnyi@gmail.com">Andrei Kholodnyi</maintainer>
+
+  <license>MIT</license>
+
+  <url type="website">https://github.com/geographiclib/geographiclib</url>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>geographiclib</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

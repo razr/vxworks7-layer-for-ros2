@@ -1,0 +1,50 @@
+From a5502dbd19d602b319b7465c3b9f713ca4eb746a Mon Sep 17 00:00:00 2001
+From: Andrei Kholodnyi <andrei.kholodnyi@windriver.com>
+Date: Mon, 26 Aug 2024 15:42:14 +0200
+Subject: [PATCH] geographiclib
+
+---
+ CMakeLists.txt                              | 4 ++--
+ include/GeographicLib/GeodesicLineExact.hpp | 4 ++++
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index eb08bd48..7145498f 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -257,7 +257,7 @@ if (DEVELOPER OR CONVERT_WARNINGS_TO_ERRORS)
+     set (CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /WX")
+     set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /WX")
+   else ()
+-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
++    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+   endif ()
+ endif ()
+ 
+@@ -279,7 +279,7 @@ include (CheckCXXSourceCompiles)
+ if (MSVC)
+   set (CMAKE_REQUIRED_FLAGS "${CMAKE_CXX_FLAGS} /WX")
+ else ()
+-  set (CMAKE_REQUIRED_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
++  set (CMAKE_REQUIRED_FLAGS "${CMAKE_CXX_FLAGS}")
+   if (CMAKE_CXX_COMPILER_ID STREQUAL GNU AND
+       CMAKE_CXX_COMPILER_VERSION VERSION_LESS 6.0)
+     # Flags for CMAKE_CXX_STANDARD are added here by default
+diff --git a/include/GeographicLib/GeodesicLineExact.hpp b/include/GeographicLib/GeodesicLineExact.hpp
+index 5fdf6350..33fb3b66 100644
+--- a/include/GeographicLib/GeodesicLineExact.hpp
++++ b/include/GeographicLib/GeodesicLineExact.hpp
+@@ -38,6 +38,10 @@ namespace GeographicLib {
+     friend class GeodesicExact;
+     static const int nC4_ = GeodesicExact::nC4_;
+ 
++#ifdef _D0
++#undef _D0
++#endif
++
+     real tiny_;
+     real _lat1, _lon1, _azi1;
+     real _a, _f, _b, _c2, _f1, _e2, _salp0, _calp0, _k2,
+-- 
+2.34.1
+
